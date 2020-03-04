@@ -1,21 +1,24 @@
 import React from "react";
+import axios from "axios";
 import { useForm } from "react-hook-form";
+import { userRegister } from "../../redux/actions/usersAuth/userAuthActions";
+import { connect } from "react-redux";
 
 const defaultValues = {
   username: "",
   email: "",
   password: "",
-  confirmPassword: "",
-  role: "",
   bio: "",
   position: ""
 };
 
-const UserRegistration = () => {
-  const { register, handleSubmit } = useForm(defaultValues);
+const UserRegistration = (props) => {
+  const { userRegister } = props;
+
+  const { register, handleSubmit } = useForm();
   //Submit Form
-  const submitData = (user) => {
-    console.log(user);
+  const submitData = async (user) => {
+    await userRegister(user);
   };
   return (
     <div>
@@ -51,10 +54,21 @@ const UserRegistration = () => {
           name="bio"
           ref={register({ required: true })}
         />
+
+        <input
+          autoComplete="false"
+          type="text"
+          placeholder="Position"
+          name="position"
+          ref={register({ required: true })}
+        />
         <button type="submit">Register</button>
       </form>
     </div>
   );
 };
 
-export default UserRegistration;
+const actions = {
+  userRegister
+};
+export default connect(null, actions)(UserRegistration);

@@ -1,4 +1,5 @@
 {
+  "kind": "collectionType",
   "connection": "default",
   "collectionName": "users-permissions_user",
   "info": {
@@ -57,19 +58,7 @@
       "type": "richtext"
     },
     "position": {
-      "type": "enumeration",
-      "enum": [
-        "President",
-        "Secretary",
-        "Other"
-      ],
-      "required": true
-    },
-    "profilePicture": {
-      "model": "file",
-      "via": "related",
-      "plugin": "upload",
-      "required": false
+      "type": "string"
     }
   }
 }
