@@ -1,12 +1,14 @@
 import {
   USER_REGISTRATION,
   USER_LOGIN,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  GET_MY_PROFILE
 } from "../../actions/actionTypes";
 
 const initialState = {
   currentUser: null,
-  users: []
+  users: [],
+  myProfile: null
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -18,7 +20,11 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         currentUser: action.payload
       };
-
+    case GET_MY_PROFILE:
+      return {
+        ...state,
+        myProfile: action.payload
+      };
     default:
       return state;
   }

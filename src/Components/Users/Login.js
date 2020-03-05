@@ -15,6 +15,7 @@ const Login = (props) => {
   const { register, handleSubmit } = useForm();
   //Submit Form
   const submitData = async (user) => {
+    console.log(user);
     return await loginUser(user);
   };
   return (
@@ -25,8 +26,8 @@ const Login = (props) => {
           autoComplete="false"
           type="text"
           placeholder="Username/Email"
-          name="username"
-          ref={register({ required: true })}
+          name="identifier"
+          ref={register}
         />
 
         <input
@@ -34,7 +35,7 @@ const Login = (props) => {
           type="password"
           placeholder="Password"
           name="password"
-          ref={register({ required: true })}
+          ref={register}
         />
 
         <button type="submit">Login</button>

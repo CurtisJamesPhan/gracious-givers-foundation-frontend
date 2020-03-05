@@ -4,7 +4,9 @@ import {
   USER_LOGIN,
   LOGIN_ERROR,
   REGISTRATION_ERROR,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  GETTING_MY_PROFILE_ERROR,
+  GET_MY_PROFILE
 } from "../actionTypes";
 import { API_URL } from "../../../config/urls";
 
@@ -48,9 +50,7 @@ export const userRegister = (user) => {
       .catch((error) => {
         dispatch({
           type: REGISTRATION_ERROR,
-          payload: {
-            message: error
-          }
+          payload: error
         });
       });
   };
@@ -69,7 +69,7 @@ export const loginUser = (user) => {
   return (dispatch) => {
     axios
       .post("http://localhost:1337/auth/local", {
-        identifier: user.username,
+        identifier: user.identifier,
         password: user.password
       })
       .then((response) => {
@@ -95,11 +95,9 @@ export const loginUser = (user) => {
       .catch((error) => {
         dispatch({
           type: LOGIN_ERROR,
-          payload: {
-            user: error
-          }
+          payload: "Email/password incorrect"
         });
-        console.log("An error occurred:", error.message);
+        console.log("Email/password incorrect");
       });
   };
 };
@@ -111,5 +109,26 @@ export const setCurrentUser = (userAuth) => {
       type: SET_CURRENT_USER,
       payload: userAuth
     });
+  };
+};
+
+export const getMyProfile = () => {
+  return (dispatch) => {
+    axios({
+      method: "GET",
+      url: "http://localhost:1337/users/me"
+    })
+      .then((res) => {
+        dispatch({
+          type: GET_MY_PROFILE,
+          payload: res.data
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: GETTING_MY_PROFILE_ERROR,
+          payload: err
+        });
+      });
   };
 };

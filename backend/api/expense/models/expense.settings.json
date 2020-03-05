@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "connection": "default",
+  "collectionName": "expenses",
+  "info": {
+    "name": "expense"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "type": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "richtext"
+    },
+    "amount": {
+      "type": "integer"
+    }
+  }
+}

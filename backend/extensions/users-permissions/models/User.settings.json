@@ -54,11 +54,17 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "bio": {
-      "type": "richtext"
+    "donations": {
+      "via": "user",
+      "collection": "donation"
     },
-    "position": {
-      "type": "string"
+    "posts": {
+      "via": "user",
+      "collection": "post"
+    },
+    "duesaccounts": {
+      "via": "user",
+      "collection": "due-account"
     }
   }
 }
