@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { userRegister } from "../../redux/actions/usersAuth/userAuthActions";
 import { connect } from "react-redux";
@@ -15,7 +14,7 @@ const defaultValues = {
 const UserRegistration = (props) => {
   const { userRegister } = props;
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm(defaultValues);
   //Submit Form
   const submitData = async (user) => {
     await userRegister(user);

@@ -1,9 +1,8 @@
-import React from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { userRegister } from "../../redux/actions/usersAuth/userAuthActions";
 import { connect } from "react-redux";
-import { createPost } from "../../redux/actions/posts/postsActions";
+import { createPost } from "../../redux/actions/postsActions/postsActions";
+import { fetchAllPosts } from "../../redux/actions/postsActions/postsActions";
 
 const defaultValues = {
   title: "",
@@ -11,14 +10,20 @@ const defaultValues = {
 };
 
 const CreatePostForm = (props) => {
-  const { createPost } = props;
-
-  const { register, handleSubmit } = useForm();
+  const { createPost, token, fetchAllPosts } = props;
+  console.log(token);
+  const { register, handleSubmit } = useForm(defaultValues);
   //Submit Form
-  const submitData = async (post) => {
-    createPost(post);
-    console.log(post);
+
+  const userToken = token && token.jwt;
+
+  const submitData = (post) => {
+    createPost(post, userToken);
+    props.history.push("/posts");
   };
+  useEffect(() => {
+    fetchAllPosts();
+  }, []);
   return (
     <div>
       <h1>Create Post</h1>
@@ -44,6 +49,13 @@ const CreatePostForm = (props) => {
   );
 };
 const actions = {
-  createPost
+  createPost,
+  fetchAllPosts
 };
-export default connect(null, actions)(CreatePostForm);
+
+const mapStateToprops = (state) => {
+  return {
+    token: state.user.currentUser
+  };
+};
+export default connect(mapStateToprops, actions)(CreatePostForm);

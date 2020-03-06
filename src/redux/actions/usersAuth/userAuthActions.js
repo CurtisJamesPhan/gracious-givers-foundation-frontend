@@ -6,7 +6,8 @@ import {
   REGISTRATION_ERROR,
   SET_CURRENT_USER,
   GETTING_MY_PROFILE_ERROR,
-  GET_MY_PROFILE
+  GET_MY_PROFILE,
+  USER_LOGOUT
 } from "../actionTypes";
 import { API_URL } from "../../../config/urls";
 
@@ -14,7 +15,7 @@ export const userRegister = (user) => {
   console.log();
   return (dispatch) => {
     axios
-      .post("http://localhost:1337/auth/local/register ", {
+      .post(`${API_URL}/auth/local/register `, {
         username: user.username,
         email: user.email,
         password: user.password,
@@ -22,24 +23,23 @@ export const userRegister = (user) => {
         position: user.position
       })
       .then((response) => {
-        console.log(response.data);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+        // Handle success.
+        console.log("Well done!");
+        console.log("User profile", response.data.user);
+        console.log("User data", response.data.jwt);
         // Destructure the authenticated user and send it to the store
-        const {
-          _id,
-          username,
-          email,
-          createdAt,
-          position,
-          bio
-        } = response.data.user;
+
+        //Grab the id and token and save to localstorage
+        const { jwt } = response.data;
+        // Destructure the authenticated user and send it to the store
+
+        const { id, username, email, createdAt } = response.data.user;
         const userData = {
-          _id,
+          id,
           username,
           email,
           createdAt,
-          position,
-          bio
+          jwt
         };
         localStorage.setItem("user", JSON.stringify(userData));
         dispatch({
@@ -60,7 +60,7 @@ export const logout = () => {
   return async (dispatch) => {
     localStorage.removeItem("user");
     dispatch({
-      type: "USER_LOGOUT"
+      type: USER_LOGOUT
     });
   };
 };
@@ -68,7 +68,7 @@ export const logout = () => {
 export const loginUser = (user) => {
   return (dispatch) => {
     axios
-      .post("http://localhost:1337/auth/local", {
+      .post(`${API_URL}/auth/local`, {
         identifier: user.identifier,
         password: user.password
       })
@@ -76,14 +76,18 @@ export const loginUser = (user) => {
         // Handle success.
         console.log("Well done!");
         console.log("User profile", response.data.user);
-        console.log("User token", response.data.jwt);
+        console.log("User data", response.data.jwt);
         // Destructure the authenticated user and send it to the store
+
+        //Grab the id and token and save to localstorage
+        const { jwt } = response.data;
         const { id, username, email, created_at } = response.data.user;
         const userData = {
           id,
           username,
           email,
-          created_at
+          created_at,
+          jwt
         };
         console.log(userData);
         localStorage.setItem("user", JSON.stringify(userData));
@@ -102,7 +106,7 @@ export const loginUser = (user) => {
   };
 };
 
-export const setCurrentUser = (userAuth) => {
+export const setCurrentUser = () => {
   return async (dispatch) => {
     const userAuth = JSON.parse(localStorage.getItem("user"));
     dispatch({
@@ -116,7 +120,7 @@ export const getMyProfile = () => {
   return (dispatch) => {
     axios({
       method: "GET",
-      url: "http://localhost:1337/users/me"
+      url: `${API_URL}/users/me`
     })
       .then((res) => {
         dispatch({

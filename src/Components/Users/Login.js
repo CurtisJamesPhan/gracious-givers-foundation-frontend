@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { loginUser } from "../../redux/actions/usersAuth/userAuthActions";
 import { connect } from "react-redux";
@@ -12,7 +11,7 @@ const defaultValues = {
 const Login = (props) => {
   const { loginUser } = props;
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm(defaultValues);
   //Submit Form
   const submitData = async (user) => {
     console.log(user);

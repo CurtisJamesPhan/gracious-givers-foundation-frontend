@@ -6,8 +6,11 @@ export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const GET_MY_PROFILE = "GET_MY_PROFILE";
 export const GETTING_MY_PROFILE_ERROR = "GETTING_MY_PROFILE_ERROR";
+export const USER_LOGOUT = "USER_LOGOUT";
 //POST
 //==============
 export const FETCH_ALL_POSTS = "FETCH_ALL_POSTS";
 export const POST_CREATED = "POST_CREATED";
 export const POST_CREATED_ERROR = "POST_CREATED_ERROR";
+export const SEARCH_FOR_POST = "SEARCH_FOR_POST";
+export const DELETE_POST = "DELETE_POST";
